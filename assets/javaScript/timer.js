@@ -1,41 +1,37 @@
 
 /// 4. function timer
 
-function add() {
-    seconds++;
-    if (seconds >= 60) {
-        seconds = 0;
-        minutes++;
-        if (minutes >= 60) {
-            minutes = 0;
-            hours++;
+// Selects element by class
+var timeEl = document.querySelector(".time");
+
+// Selects element by id
+var mainEl = document.getElementById("main");
+
+var secondsLeft = 10;
+
+function setTime() {
+  // Sets interval in variable
+var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
+
+    if(secondsLeft === 0) {
+      // Stops execution of action at set interval
+    clearInterval(timerInterval);
+      // Calls function to create and append image
+    sendMessage();
         }
-    }
 
-    h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-
-    timer();
-}
-function timer() {
-    t = setTimeout(add, 1000);
-}
-timer();
-
-
-/* Start button */
-start.onclick = timer;
-
-/* Stop button */
-stop.onclick = function() {
-    clearTimeout(t);
+    }, 1000);
 }
 
-/* Clear button */
-clear.onclick = function() {
-    h1.textContent = "00:00:00";
-    seconds = 0; minutes = 0; hours = 0;
+// Function to create and append colorsplosion image
+function sendMessage() {
+timeEl.textContent = " ";
+var imgEl = document.createElement("img");
+imgEl.setAttribute("src", "images/image_1.jpg");
+mainEl.appendChild(imgEl);
+
 }
 
-
-// 5. When timer reaches 0 perform some actions
-
+setTime();

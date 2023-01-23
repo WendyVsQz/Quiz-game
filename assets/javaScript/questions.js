@@ -37,10 +37,18 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
     function showQuestions(question, quizContainer){
     
     var output = [];
-    var answers;
+    var choices;
     // for each question...
+    for(var i=0; i<questions.length; i++) {
+        // reset the list of answers
+
+        choices= [];
+
+        // for each available answer to this question..
+    }
     for(letter in questions[i].answers){
-        answers.push(
+
+        choices.push(
             '<label>'
             +'<label>'
             + '<input type="radio" name="question'+i+'" value="'+letter+'">'
@@ -48,34 +56,50 @@ function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
             + questions[i].answers[letter]
         + '</label>'
     );
+    
 }
 
 // add this question and its answers to the output
 output.push(
     '<div class="question">' + questions[i].question + '</div>'
-    + '<div class="answers">' + answers.join('') + '</div>'
+    + '<div class="answers">' + choices.join('') + '</div>'
 );
 }
 
 // finally combine our output list into one string of html and put it on the page
 quizContainer.innerHTML = output.join('');
 
+showQuestions(questions, quizContainer);
 
+// 3. Show the results
 
+function showResults(questions, quizContainer, resultsContainer){
 
+// gather answer containers from our quiz
+var answerContainers = quizContainer.querySelectorAll('.answers');
+	
+// keep track of user's answers
+var userAnswer = '';
+var numCorrect = 0;
 
-
-// 3. for loop wrong or correct
-
-var score =0;
+// for each question..
 for(var i=0; i < questions.length; i++) {
-    var response = window.prompt(questions[i].prompt);
-    if(response === questions[i].answer){
+
+// find selected answer..
+
+    var answer = window.prompt(questions[i].prompt);
+
+    if(answer === questions[i].choices){
     score++;
     alert("correct");
     } else {
     alert("wrong");
+        }
+    
     }
+};
+// when user clicks submit, show results
+submitButton.onclick = function(){
+    showResults(questions, quizContainer, resultsContainer);
 }
-alert("you got" + score + "/" + questions.length);
 
