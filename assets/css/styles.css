@@ -30,12 +30,48 @@ button:hover {
   background-color: #8570a5;
 }
 
+.choice-container {
+    display: flex;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    border-radius: 4px;
+    background-color: #1b16ae;
+    font-size: 3rem;
+}
+
+.choice-container:hover {
+  cursor:pointer;
+  box-shadow:0 0.4rem 0 rgba(6, 103, 247, 0.5);
+  transform: scale(1.01);
+  transform: transition 100ms;
+}
+
+.choice-prefix {
+  padding: 2rem 2.5rem;
+  color: white;
+}
+
+.choice-text {
+  padding: 2rem;
+  width: 100%;
+}
+
 .choices button {
   display: block;
 }
 
+.correct {
+  background: linear-gradient(32deg, rgb(11, 223,36)0%, rgba(41, 232, 111)100%);
+}
+
+.incorrect {
+  background: linear-gradient(32deg, rgba(230, 29, 1)0%, rgba(224, 11, 11, )100%);
+}
+
 input[type="text"] {
   font-size: 100%;
+  background: rgb(11, 223,36);
+  width: 0%;
 }
 
 ol {
@@ -85,4 +121,12 @@ li:nth-child(odd) {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+
 }
