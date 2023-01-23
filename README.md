@@ -6,7 +6,7 @@ This game is marked by a timer, meaning that incorrect answers will penalize you
 score/time by ten seconds.
 
 
-Game screenshoot:
+Game screenshot:
 
 .jpg
 
