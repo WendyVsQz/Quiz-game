@@ -1,215 +1,240 @@
-
-// 1. generateQuiz function
+// Starting point
 const showQuestions = document.querySelector('#question');
 const choiceText = document.querySelector('#choice-text');
 const progressText = document.querySelector('#progressText');
 const scoreText = document.querySelector('#score');
 
-var currentQuestion = {};
-var acceptingAnswers = true;
-var score = 0;
-var questionCounter = 0;
-var availableQuestions = [];
+// get elements
+const startScreen = document.getElementById('start-screen');
+const difficultyChoice = document.querySelectorAll('.inline-input-group input');
+const startBtn = document.getElementById('start');
+const questionsDiv = document.getElementById('questions');
+const questionTitle = document.getElementById('question-title');
+const choices = document.getElementById('choices');
+const endScreen = document.getElementById('end-screen');
+const finalScore = document.getElementById('final-score');
+const inputGroup = endScreen.querySelectorAll('.reveal');
+const feedback = document.getElementById('feedback');
+
+let currentQuestion = {};
+let acceptingAnswers = true;
+let score = 0;
+let questionCounter = 0;
+let availableQuestions = [];
 
 // display question and answers
-        var questions = [
-            {
-                questions:"Which planet has the most moons?,choice1:(a) saturn, choice2:(b), venus, choice3:(c)jupiter",
-                answer: "Saturn",
-            },
-        
-            {
-                questions:"What part of a plant conducts photosynthesis?, choice1:(a) root, choice2:(b) leaf, choice3:(c)stalk",
-                answer:"leaf",
-            },
-        
-            {
-                questions:"How many elements are in the periodic table?choice1:(a) 100, choice2:(b) 97, choice3:(c)118",
-                answer: 118,
-            },
-        
-            {
-                question:"Where is the smallest bone in the human body located?choice1:(a) phalanges, choice2:(b) femur, choice3:(c)stapes",
-                answer:"stapes"
-            },
-        
-            {
-                question:"How many hearts does an octopus have?choice1:(a) 5, choice2:(b) 3, choice3:(c)1",
-                answer: 3,
-            },
-        ];
+let questions = [
+        {
+    questions:
+    'Which planet has the most moons?,choice1:(a) saturn, choice2:(b), venus, choice3:(c)jupiter',
+    answer: 'Saturn',
+    },
 
-    const SCORE_POINTS = 100
-    const MAX_QUESTIONS = 3
+    {
+    questions:
+    'What part of a plant conducts photosynthesis?, choice1:(a) root, choice2:(b) leaf, choice3:(c)stalk',
+    answer: 'leaf',
+    },
 
-    startGame = () => {
-        questionCounter = 0;
-        score = 0;
-        availableQuestions = [...questions];
-        getNewQuestion()
-    }
-    
-    getNewQuestion = () => {
-        if(availableQuestions.length === 0 || questionCounter > 
-            MAX_QUESTIONS) {
-            localStorage.setItem('mostRecentStore', score)
+    {
+    questions:
+    'How many elements are in the periodic table?choice1:(a) 100, choice2:(b) 97, choice3:(c)118',
+    answer: 118,
+    },
 
-            return window.location.assign('/end.html')
-        }
+    {
+    question:
+    'Where is the smallest bone in the human body located?choice1:(a) phalanges, choice2:(b) femur, choice3:(c)stapes',
+    answer: 'stapes',
+    },
 
-        questionCounter++
-        progressText.innerText = 'Question ${questionCounter} of ${MAX_QUESTIONS}'
-        
-        const questionsIndex = Math.floor(Math.random() * availableQuestions.length)
-        currentQuestion = availableQuestions[questionsIndex]
-        question.innerText = currentQuestion.question
+    {
+    question:
+    'How many hearts does an octopus have?choice1:(a) 5, choice2:(b) 3, choice3:(c)1',
+    answer: 3,
+    },
+];
 
-        choice.forEach(choice => {
-            const number = choice.dataset('number');
-            choice.innerText = currentQuestion['choice' + number]
-        })
+const SCORE_POINTS = 100;
+const MAX_QUESTIONS = 3;
 
-        availableQuestions.splice(questionsIndex, 1)
+getNewQuestion = () => {
+    if (availableQuestions.length === 0 || questionCounter > MAX_QUESTIONS) {
+    localStorage.setItem('mostRecentStore', score);
 
-        acceptingAnswers = true
+    return window.location.assign('/end.html');
     }
 
-    choices.forEach(choices => {
-        choice.addEventListener('click', e => {
-            if(!acceptingAnswers) return
+    questionCounter++;
+    progressText.innerText = 'Question ${questionCounter} of ${MAX_QUESTIONS}';
 
-            acceptingAnswers = false;
-            const selectedChoice = e.target;
-            const selectedAnswer = selectedChoice.dataset('number')
+  const questionsIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[questionsIndex];
+    questions.innerText = currentQuestion.question;
 
-            var classToApply = selectedAnswer == currentQuestion.
-        })
+    choice.forEach((choice) => {
+    const number = choice.dataset('number');
+    choice.innerText = currentQuestion['choice' + number];
+});
+
+    availableQuestions.splice(questionsIndex, 1);
+
+    acceptingAnswers = true;
+};
+
+//* test that this produces correct results
+
+let questionIndex = 0;
+
+function renderQuestion() {
+if (questionIndex >= questions.length) return;
+let show = document.getElementById('question');
+let q = questions[questionIndex];
+show.innerHTML = q.question;
+Object.entries(q.answer).forEach(([letter,text]) => {
+    const but = document.getElementById(letter);
+    but.innerHTML = text
+    but.dataset.correct = q.correctAnswer === letter;
     })
+    questionIndex++;
+}
+renderQuestion()
 
-    // Onclick event for all answer buttons
-choices.forEach(choice => {
-    choice.addEventListener('click', e => {
-        if(!acceptingAnswers) return
-
-        acceptingAnswers = false
-        const selectedChoice = e.target
-        const selectedAnswer = selectedChoice.dataset['number']
-
-        var classToApply = selectedAnswer == currentQuestion.answer ? 'correct':
-        'incorrect'
-
-        if(classToApply === 'correct') {
-            incrementScore(SCORE_POINTS)
-        }
-        selectedChoice.parentElement.classList.add(classToApply)
-
-        setTimeout(() => {
-        selectedChoice.parentElement.classList.remove(classToApply)
-        getNewQuestion()
-        }, 1000)
-    })
+document.getElementById("buts").addEventListener("click", function(e) {
+const tgt = e.target;
+if (tgt.type && tgt.type === "button") {
+    document.getElementById("result").innerText = tgt.dataset.correct === "true" ? "Correct" : "Incorrect"
+    }
 })
 
-incrementScore = num => {
-    score +=num;
-    scoreText.innerText = score;
+document.getElementById("next").addEventListener("click", renderQuestion)
+
+// Onclick event for all answer buttons
+choices.forEach((choice) => {
+choice.addEventListener('click', (e) => {
+    //* if not accepting answers go to end screen
+    if (!acceptingAnswers) {
+    end();
+    }
+
+    acceptingAnswers = false;
+    const selectedChoice = e.target;
+    const selectedAnswer = selectedChoice.dataset['number'];
+
+    let classToApply =
+    selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+
+    if (classToApply === 'correct') {
+    incrementScore(SCORE_POINTS);
+    }
+    selectedChoice.parentElement.classList.add(classToApply);
+
+    setTimeout(() => {
+    selectedChoice.parentElement.classList.remove(classToApply);
+    getNewQuestion();
+    }, 1000);
+    });
+});
+
+incrementScore = (num) => {
+score += num;
+scoreText.innerText = score;
+};
+
+//* add event listener to the button
+startButton.addEventListener('click', startGame);
+
+startGame = () => {
+questionCounter = 0;
+score = 0;
+availableQuestions = [...questions];
+getNewQuestion();
+
+  //* hide start-screen
+startScreen.classList.add('hide');
+
+  //* show questions div
+questionsDiv.classList.remove('hide');
+questionShow();
+}, 1000;
+  //* start timer
+timerVal = 76; // start with 76 seconds - will be decremented before display
+startTimer();
+
+function checkAnswer() {
+  // If user entered correct answer, then display "Correct"
+if (userAnswer === correctAnswer) {
+    document.getElementById('correct').hidden = false;
+    }
+  // If user entered incorrect answer, then display "Incorrect", and take away 10 seconds from timer
+else {
+    document.getElementById('incorrect').hidden = false;
+    timerVal = timerVal - 10;
+    }
 }
 
-startGame();
+answerButtons.forEach((answerButtons) => {
 
-       // Onclick event for "Start Quiz" button on welcome section
-function startQuiz() {
-    // Hide all sections, then unhide the first page
-    hideAll();
-    document.getElementById("end-screen").hidden = false;
+answerButtons.removeEventListener('click', processAnswer);
+setTimeout(() => {
+questionTitle.classList.remove('show');
+    }, 850);
+});
 
-    // Start timer:
-    timerVal = 76; // start with 76 seconds - will be decremented before display
-    clearInterval(interval); // make sure no timer is already running
-    //Call updateTimer once every second
-    interval = setInterval(updateTimer, 1000)
 
-    // If time is up, go to last page; can be less than 0 because 10 subtracted for wrong answers
-    if (timerVal <= 0) {
-        nextPage = lastPage;
-    }
-    // Advance to next page
-    goToPage(nextPage);
-
-    // If user entered correct answer, then display "Correct"
-    if (userAnswer === correctAnswer) {
-        document.getElementById("correct").hidden = false;
-    }
-    // If user entered incorrect answer, then display "Incorrect", and take away 10 seconds from timer
-    else {
-        document.getElementById("incorrect").hidden = false;
-        timerVal = timerVal - 10;
-    }
-
-// Adds onclick event to all 20 answer buttons
+// Adds onclick event to all answer buttons
 function setAnswerButtons() {
-    var answerBtns = document.getElementsByClassName("answerBtn")
-    for (var i = 0; i < answerBtns.length; i++) {
-        answerBtns[i].addEventListener("click", answerButtons);
-    }
-}
-
-// Hides all sections; used before displaying current section
-function hideAll() {
-    var sections = document.getElementsByTagName("section");
-
-    for (var i=0; i < sections.length; i++) {
-        sections[i].hidden = true;
-    }
-}
-// when user clicks submit, show results
-submitButton.onclick = function(){
-    showResults(questions, quizContainer, resultsContainer);
-    }
-function updateTimer() {
-    // Check for <0 just in case - can happen because 10 seconds subtracted for wrong answers!
-    if (timerVal <= 0) {
-        goToPage(lastPage);
-        alert("Time's up!");
-    }
-    else {
-        timerVal--; // decrement timer
-        document.getElementById("timerValue").textContent = timerVal.toString(); // display current timer value
+var answerBtns = document.getElementsByClassName('answerBtn');
+for (var i = 0; i < answerBtns.length; i++) {
+    answerBtns[i].addEventListener('click', answerButtons);
     }
 }
 
 function initiateGameTimer() {
-    CounterInterval = setInterval(function() {
-    counter = counter + 1;
-    timer = timer - 1;
-    $('#GameTime').html(timer);
-    console.log(timer);
-      // Gamce condition check when timer =0: position of the star < or > 2308(bottom page limit)
-    if (timer == 0) {
-        clearInterval(CounterInterval);
-        if (x >= 1440) {
-        $("#GamePage").hide();
-        $("#Congratulations").show();
-        } else if (x < 1440) {
-        console.log("fail");
-        $("#GamePage").hide();
-        $("#GameOver").show();
-        }
-    }
-    }, 1000)
-}
+CounterInterval = setInterval(function () {
+    timerVal--;
+    //* get the span id='time' from html
 
-function goToPage(nextPg) {
-    // If quiz is done, stop timer, update score on Complete section
-    if (nextPg === lastPage) {
-        clearInterval(interval);
-        document.getElementById("finalScore").textContent = timerVal.toString();
+    timeSpan.innerText = time;
+    timer.classList.add('show');
+
+    // when timer is 0
+    if (timerVal <= 0) {
+    end();
+    if (soundToggle.checked) {
+        quizOverTimer.play();
     }
+    setTimeout(() => {
+        let title = document.querySelector('#end-screen p');
+        let subtitle = document.createElement('span');
+        subtitle.setAttribute('class', 'subtitle');
+        subtitle.textContent = `Time is up! `;
+        endScreen.insertBefore(subtitle, title);
+    }, 250);
+    }
+}, 1000);
+}
+// end screen
+function end() {
+  // If quiz is done, stop timer, update score on Complete section
+clearInterval(interval);
+document.getElementById("finalScore").textContent = timerVal.toString();
+
+  //* set timer to 0
+timerVal = 0;
+questionsDiv.classList.add('hide');
+endScreen.classList.remove('hide');
+setTimeout(() => {
+inputGroup.forEach((el) => el.classList.add('show'));
+}, 200);
+finalScore.textContent = score;
+scores(score);
+}
 
     // Hide everything, then determine which sections to unhide
     hideAll();
 
     // Advance to next page
     document.getElementsByName(nextPg.toString())[0].hidden = false;
-} }
+
 

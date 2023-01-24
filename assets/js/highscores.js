@@ -1,98 +1,115 @@
 
-var highScores=[] // initialization
-getHighScores(); // retrieve high score list from local storage
-setAnswerButtons(); // add event listeners to all answer buttons
+let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+let highScoresOl = document.getElementById('highscores');
+const endScreen = document.getElementById('end-screen');
 
-// Add event listeners to the rest of the buttons
-document.getElementById("highScoresBtn").addEventListener("click", displayHighScores);
-document.getElementById("goBackBtn").addEventListener("click", goBack);
-document.getElementById("clearScores").addEventListener("click", clearHighscores);
-document.getElementById("initialsBtn").addEventListener("click", saveInitials);
+export function scores(score) {
+const initials = document.getElementById('initials');
+const submit = document.getElementById('submit');
 
-// Onclick event for "View Highscores" button on navigation bar
-function displayHighScores() {
-    var highscoresSection = document.getElementById("highscores");
-    var highscoresList = document.getElementById("highscoreList");
+submit.addEventListener('click', submitInitials);
+initials.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+    e.preventDefault();
+    submitInitials();
+        }
+    });
+function submitInitials() {
+    if (validateInitials(initials)) {
+    let highScoresObj = {
+        score: score,
+        initials: initials.value.toUpperCase(),
+        };
+    if (highScores.length <= 100) {
+        highScores.push(highScoresObj);
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+        }
+    initials.value = '';
 
-    clearInterval(interval); // Just in case timer is running
+      // endScreen
+    let buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container', 'reveal');
+    let startAgainBtn = document.createElement('a');
+    startAgainBtn.setAttribute('href', 'index.html');
+    startAgainBtn.innerText = 'Start again';
+    let highScoresBtn = document.createElement('a');
+    highScoresBtn.setAttribute('href', 'highscores.html');
+    highScoresBtn.innerText = 'Highscores';
 
-    // Delete current list items
-    clearHighscoresList();
-
-    // Create list items for each high scorer
-    for (var i=0; i < highScores.length; i++) {
-        var newListItem = document.createElement("li");
-        newListItem.textContent = highScores[i];
-        highscoresList.appendChild(newListItem);
-    }
-
-    // Hide all sections, including navigation bar, then unhide highscores section
-    hideAll();
-    document.querySelector("nav").hidden = true;
-    highscoresSection.hidden = false;
-}
-
-// Onclick event for "Go Back" button on Highscores section
-function goBack() {
-    // Reset timer
-    timerVal = 75;
-    document.getElementById("timerValue").textContent = timerVal.toString();
-
-    // Hide all sections, then unhide navigation bar and welcome section
-    hideAll();
-    document.querySelector("nav").hidden = false;
-    document.getElementById("welcome").hidden = false;
-}
-// Retrieves highscore list from localstorage, if it's there
-function getHighScores() {
-    var hsList = JSON.parse(localStorage.getItem(hsStorage));
-
-    if (hsList) {
-        highScores = hsList;
-    }
-}
-
-// Stores highscore list to localstorage
-function setHighScores() {
-    localStorage.setItem(hsStorage, JSON.stringify(highScores));
-}
-// Onclick event for "Submit" button on Complete section
-function saveInitials() {
-    var initialsInput = document.getElementById("initials"); // get Input element
-    var score = 0; // for retrieving scores from highScores list
-    var newIndex = 0; // index of new high score
-
-    // Determine where in the list the new initials belong
-    for (newIndex=0; newIndex < highScores.length; newIndex++) {
-        // get just the score out of the string
-        score = parseInt(highScores[newIndex].substr(-2));
-        // If current score (timerVal) is greater than the indexed score, we've found where it goes
-        if (timerVal > score) {
-            break;
-            }
+      // replace p with buttons
+    endScreen.querySelectorAll('p').forEach((p) => p.classList.add('hide'));
+    endScreen.querySelector('span').classList.add('hide');
+    buttonContainer.appendChild(startAgainBtn);
+    buttonContainer.appendChild(highScoresBtn);
+    endScreen.appendChild(buttonContainer);
+    setTimeout(() => {
+        buttonContainer.classList.add('show');
+        }, 200);
+    } else {
+    return;
         }
     }
+}
 
-// Removes list items from Highscores section
-function clearHighscoresList() {
-    var highscoresList = document.getElementById("highscoreList");
-
-    // Delete each list item until none remain
-    while (highscoresList.childNodes.length > 0) {
-        highscoresList.removeChild(highscoresList.childNodes[0]);
+// validate initials input
+function validateInitials(initials) {
+const regEx = /^[a-zA-Z]{2,3}$/;
+if (regEx.test(initials.value)) {
+    return true;
+} else {
+    initials.value = '';
+    initials.placeholder = 'Please, enter max 3 letters';
+    return false;
     }
 }
 
-// Onclick event for "Clear Highscores" button on Highscores section
-function clearHighscores() {
-    // Delete each list item form Highscores section
-    clearHighscoresList();
-    
-    // Clear highscores list and write to localstorage
-    highScores = [];
-    setHighScores();
+// clear highscores
+const clear = document.getElementById('clear');
+if (clear) {
+clear.addEventListener('click', () => {
+    localStorage.removeItem('highScores');
+    highScoresOl.innerHTML = '';
+    });
 }
-highScores.splice(newIndex, 0, initialsInput.value + " - " + timerVal.toString()); // add high score to beginning
-    initialsInput.value = ""; // clear Input element
-    setHighScores(); // save new highscores list to localstorage
-    displayHighScores(); // display the highscores
+
+// get the scores
+function getHighScores() {
+if (!highScoresOl) {
+    return;
+    }
+scores = JSON.parse(localStorage.getItem('highScores')) || [];
+  // sort for highest scores
+scores = scores.sort((x, y) => y.score - x.score);
+  // show only last 10
+let highestScores = scores.slice(0, 10);
+  // create table if more than 1 score saved
+if (scores.length > 0) {
+    highScoresOl.innerHTML = `
+        <table>
+        <thead>
+        <tr class="reveal">
+        <th>Rank</th>
+        <th>Initials</th>
+        <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        ${highestScores
+            .map(
+        (score, index) =>
+                `<tr class="reveal">
+                <td>${index + 1}</td>
+                <td>${score.initials}</td>
+                <td>${score.score}</td>
+                </tr>`
+            )
+            .join('')}
+        </tbody>
+    </table>`;
+    }
+setTimeout(() => {
+    const elements = document.querySelectorAll('.reveal');
+    elements.forEach((element) => element.classList.add('show'));
+    }, 0);
+}
+getHighScores();

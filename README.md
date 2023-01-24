@@ -8,7 +8,7 @@ score/time by ten seconds.
 -------------------------------------------------------------------------------------------------------
 Game screenshot:
 
-.jpg
+.img
 
 
 --------------------------------------------------------------------------------------------------------
@@ -27,3 +27,5 @@ Link resources:
 4. https://stackoverflow.com/questions/34022525/   how-to-schedule-audio-to-play-when-user-win-or-lose-a-game-in-jquery-browser
 
 --------------------------------------------------------------------------------------------------------
+
+current status: uncompleted
