@@ -39,6 +39,17 @@
         <p class="choice-text" data-number="3">choice</p>
       </div>
     </div>
+    
+    <div id="Congratulations" style="display:none; width:1920px; height:3840px;">
+      <div id="jquery_jplayer_5" style="position:absolute; z-index:1;"></div>
+      <audio src="./assets/sfx/correct.wav" loop autoplay>Your browser does not support this audio format</audio>
+    </div>
+    
+    <div id="GameOver" style="display:none; left:0; top:0; width:1920px; height:3840px;">
+      <div id="jquery_jplayer_6" style="position:absolute; z-index:1;"></div>
+      <audio src="./assets/sfx/incorrect.wav" loop autoplay>Your browser does not support this audio format</audio>
+      <input id="OK" type="image" src="lib/Elements/Ok.png" onclick="RevertPage()" />
+    </div>
 
       <div id="end-screen" class="hide">
         <h2>All done!</h2>
@@ -51,8 +62,7 @@
 
       <div id="feedback" class="feedback hide"></div>
     </div>
-
-    <script src="./assets/javaScript/questions.js"></script>
-    <script src="./assets/javaScript/highscores.js"></script>
+    <script src="./assets/js/logic.js"></script>
+    <script src="./assets/js/highscores.js"></script>
   </body>
 </html>

@@ -124,9 +124,8 @@ li:nth-child(odd) {
 }
 
 
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px) 
-  and (-webkit-min-device-pixel-ratio: 2) { 
-
+@media screen and (max-width: 700px) {
+  main {
+      width: 350px;
+  }
 }
