@@ -25,31 +25,16 @@
         <button id="start">Start Quiz</button>
       </div>
 
-      <h1 id = "question"> what is the answer to this question</h1>
-      <div class="choice-container">
-        <button><p class= "choice-prefix">a</p>
-        <p class="choice-text" data-number="1">choice</p></button>
-        </div>
-        <div class="choice-container">
-        <button><p class="choice-prefix">b</p>
-        <p class="choice-text" data-number="2">choice</p></button>
-        </div>
-        <div class="choice-container">
-        <button><p class="choice-prefix">c</p>
-        <p class="choice-text" data-number="3">choice</p></button>
-      </div>
-      <button type="button" id="next">Next</button>
+      <div id="questions" class="hide">
+      <h1 id = "question-tittle"></h1>
+      <div id = "choices" class="choices"></div>
+      <button id="btn1"></button>
+      <button id="btn2"></button>
+      <button id= "btn3"></button>
+      <div id="mark"></div>
     </div>
-    
-    <div id="Congratulations" style="display:none; width:1920px; height:3840px;">
-      <div id="jquery_jplayer_5" style="position:absolute; z-index:1;"></div>
-      <audio src="./assets/sfx/correct.wav" loop autoplay>Your browser does not support this audio format</audio>
-    </div>
-    
-    <div id="GameOver" style="display:none; left:0; top:0; width:1920px; height:3840px;">
-      <div id="jquery_jplayer_6" style="position:absolute; z-index:1;"></div>
-      <audio src="./assets/sfx/incorrect.wav" loop autoplay>Your browser does not support this audio format</audio>
-      <input id="OK" type="image" src="lib/Elements/Ok.png" onclick="RevertPage()" />
+
+    <div id="end-screen" class="hide">
     </div>
 
       <div id="end-screen" class="hide">
@@ -65,5 +50,6 @@
     </div>
     <script src="./assets/js/logic.js"></script>
     <script src="./assets/js/highscores.js"></script>
+    <script src="./assets/js/questions.js"></script>
   </body>
 </html>

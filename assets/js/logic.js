@@ -1,72 +1,35 @@
-// Starting point
-const showQuestions = document.querySelector('#question');
-const choiceText = document.querySelector('#choice-text');
-const progressText = document.querySelector('#progressText');
-const scoreText = document.querySelector('#score');
-
 // get elements
-const startScreen = document.getElementById('start-screen');
-const difficultyChoice = document.querySelectorAll('.inline-input-group input');
 const startBtn = document.getElementById('start');
-const questionsDiv = document.getElementById('questions');
+const startScreen = document.getElementById('start-screen');
 const questionTitle = document.getElementById('question-title');
 const choices = document.getElementById('choices');
+const questionsDiv = document.getElementById('questions');
 const endScreen = document.getElementById('end-screen');
 const finalScore = document.getElementById('final-score');
 const inputGroup = endScreen.querySelectorAll('.reveal');
 const feedback = document.getElementById('feedback');
+let questionNumber =0;
+
+function startQuiz(event) {
+  startScreen.style.display = 'none';
+  questionsDiv.className = "";
+  questionTitle.textContent = questions[0].question;
+  questions[0].choice.forEach(function (singleChoice){
+    const item = document.createElement('li');
+    item.textContent = singleChoice;
+    choices.appendChild(item);
+  });
+  questionNumber++;
+}
+
+startBtn.addEventListener('click', startQuiz);
+
 
 let currentQuestion = {};
 let acceptingAnswers = true;
 let score = 0;
 let questionCounter = 0;
 let availableQuestions = [];
-
-// display question and answers
-let questions = [
-        {
-    questions:
-    'Which planet has the most moons?,choice1:(a) saturn, choice2:(b), venus, choice3:(c)jupiter',
-    answer: 'Saturn',
-    },
-
-    {
-    questions:
-    'What part of a plant conducts photosynthesis?, choice1:(a) root, choice2:(b) leaf, choice3:(c)stalk',
-    answer: 'leaf',
-    },
-
-    {
-    questions:
-    'How many elements are in the periodic table?choice1:(a) 100, choice2:(b) 97, choice3:(c)118',
-    answer: 118,
-    },
-
-    {
-    question:
-    'Where is the smallest bone in the human body located?choice1:(a) phalanges, choice2:(b) femur, choice3:(c)stapes',
-    answer: 'stapes',
-    },
-
-    {
-    question:
-    'How many hearts does an octopus have?choice1:(a) 5, choice2:(b) 3, choice3:(c)1',
-    answer: 3,
-    },
-];
-
-const SCORE_POINTS = 100;
-const MAX_QUESTIONS = 3;
-
-getNewQuestion = () => {
-    if (availableQuestions.length === 0 || questionCounter > MAX_QUESTIONS) {
-    localStorage.setItem('mostRecentStore', score);
-
-    return window.location.assign('/end.html');
-    }
-
-    questionCounter++;
-    progressText.innerText = 'Question ${questionCounter} of ${MAX_QUESTIONS}';
 
   const questionsIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionsIndex];
@@ -80,7 +43,6 @@ getNewQuestion = () => {
     availableQuestions.splice(questionsIndex, 1);
 
     acceptingAnswers = true;
-};
 
 //* test that this produces correct results
 
@@ -100,7 +62,7 @@ Object.entries(q.answer).forEach(([letter,text]) => {
 }
 renderQuestion()
 
-document.getElementById("buts").addEventListener("click", function(e) {
+document.getElementById("btn").addEventListener("click", function(e) {
 const tgt = e.target;
 if (tgt.type && tgt.type === "button") {
     document.getElementById("result").innerText = tgt.dataset.correct === "true" ? "Correct" : "Incorrect"
