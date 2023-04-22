@@ -10,7 +10,7 @@ const inputGroup = endScreen.querySelectorAll('.reveal');
 const feedback = document.getElementById('feedback');
 let questionNumber =0;
 
-function startQuiz(event) {
+function startQuiz() {
   startScreen.style.display = 'none';
   questionsDiv.className = "";
   questionTitle.textContent = questions[0].question;
