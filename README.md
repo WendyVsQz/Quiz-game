@@ -6,25 +6,26 @@ This game is marked by a timer, meaning that incorrect answers will penalize you
 score/time by ten seconds.
 
 -------------------------------------------------------------------------------------------------------
-Game screenshot:
 
-![Screenshot_20230124_224743](https://user-images.githubusercontent.com/118736912/214442062-1123a2c0-fadd-404a-9034-a885a380c5c4.png)
+# Technologies
+* [![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev)
+* [![My Skills](https://skillicons.dev/icons?i=html)](https://skillicons.dev)
+* [![My Skills](https://skillicons.dev/icons?i=css,)](https://skillicons.dev)
 
+-------------------------------------------------------------------------------------------------------
+## Game screenshot:
+
+* [GIF]
 
 --------------------------------------------------------------------------------------------------------
-Deploy link:
+## Deploy:
 
-https://wendyvsqz.github.io/Quiz-game/
-
-
---------------------------------------------------------------------------------------------------------
-Link resources:
-
-1. https://stackoverflow.com/questions/48749948/how-to-make-timer-begin-only-when-start-button-is-clicked
-2. https://stackoverflow.com/questions/53366065/when-timer-reaches-0-perform-some-actions
-3. https://www.javascripttutorial.net/javascript-dom/javascript-append/
-4. https://stackoverflow.com/questions/34022525/   how-to-schedule-audio-to-play-when-user-win-or-lose-a-game-in-jquery-browser
+* [Link]
 
 --------------------------------------------------------------------------------------------------------
 
-current status: To improve.
+## Credits:
+
+* https://animatedbackgrounds.me/
+*
+*
